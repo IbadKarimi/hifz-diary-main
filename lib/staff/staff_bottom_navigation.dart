@@ -8,6 +8,7 @@ import 'package:hafiz_diary/profile/profile_screen.dart';
 import 'package:hafiz_diary/widget/TextFormField.dart';
 import 'package:hafiz_diary/widget/app_text.dart';
 import 'package:hafiz_diary/widget/common_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'staff_home.dart';
 
@@ -30,8 +31,22 @@ class _StaffBottomNavigationState extends State<StaffBottomNavigation> {
     NotesScreen(),
     ProfileScreen(),
   ];
+  var  currectUserId;
+
+  Future<void> getCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currectUserId = prefs.getString("currentUserId")!;
+      print("Current User id is**************** " + currectUserId.toString());
+    });
+  }
+  void initState(){
+    getCurrentUser();
+    super.initState();
+  }
   void _onItemTapped(int index) {
     setState(() {
+
       _selectedIndex = index;
     });
   }
@@ -129,7 +144,7 @@ class _StaffBottomNavigationState extends State<StaffBottomNavigation> {
                       if (!value.docs.first
                           .get("teachers")
                           .toString()
-                          .contains(FirebaseAuth.instance.currentUser!.uid)) {
+                          .contains(currectUserId)) {
                         FirebaseFirestore.instance
                             .collection("classes")
                             .doc(value.docs.first.id)

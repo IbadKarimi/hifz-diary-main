@@ -23,19 +23,10 @@ class _AdminHomeNavigationState extends State<AdminHomeNavigation> {
   TextEditingController classNameController = TextEditingController();
   TextEditingController classCodeController = TextEditingController();
   TextEditingController classDescController = TextEditingController();
-  String ? currentUserId;
+  var currentUserId;
   final _formKey = GlobalKey<FormState>();
   int Value = 0;
   @override
-  void initState() {
-    getCurrentUserId();
-    setState(() {
-      classCodeController.text = Random().nextInt(100000).toString();
-    });
-    // TODO: implement initState
-    super.initState();
-  }
-
   getCurrentUserId()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -43,6 +34,16 @@ class _AdminHomeNavigationState extends State<AdminHomeNavigation> {
     });
 
   }
+  void initState() {
+     getCurrentUserId();
+    setState(() {
+      classCodeController.text = Random().nextInt(100000).toString();
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
+
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -165,7 +166,7 @@ class _AdminHomeNavigationState extends State<AdminHomeNavigation> {
                       "class_code": classCodeController.text,
                       "teachers": [],
                       "students": [],
-                      "created_by": currentUserId,
+                      "created_by": currentUserId.toString(),
                       "class_desc": classDescController.text,
                     }).then((value) {
                       Navigator.pop(context);

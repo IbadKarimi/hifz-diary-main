@@ -23,19 +23,15 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  String ? currectUserId;
+  String ?currectUserId;
 
-  Future<void> getCurrentUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      currectUserId = prefs.getString("currentUserId")!;
-      print("Current User id is**************** " + currectUserId.toString());
-    });
-  }
 
   void initState() {
 
-    initializeApp();
+      getCurrentUser();
+      initializeApp();
+
+
 
     print("Current User is "+FirebaseAuth.instance.currentUser.toString() );
 
@@ -43,15 +39,28 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
   }
+  Future<void> getCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currectUserId = prefs.getString("currentUserId");
+      print("Current User id is**************** " + currectUserId.toString());
+    });
+  }
   Future<void> initializeApp() async {
+
+
     await getCurrentUser();
-    if (currectUserId != "") {
+
+
+
+
+    if (currectUserId!= null) {
+
       FirebaseFirestore.instance
           .collection("users")
           .doc(currectUserId.toString())
           .get()
-          .then(
-            (value) {
+          .then((value) {
           if (value.get("type") == 0) {
             Timer(
               const Duration(seconds: 5),

@@ -111,8 +111,15 @@ class _AdminHomeState extends State<AdminHome> {
              return SplashScreen();
            }));*/
 
-              SharedPreferences prefs =await SharedPreferences.getInstance();
-              prefs.setString("currentUserId", "");
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove("currentUserId");
+
+
+
+
+
+
+
 
               FirebaseAuth.instance.signOut().then(
                     (value) => Navigator.pushReplacement(

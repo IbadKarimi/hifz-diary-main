@@ -5,6 +5,7 @@ import 'package:hafiz_diary/NewScreens/join.dart';
 import 'package:hafiz_diary/authentication/role_page.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../authentication/login_screen.dart';
 import '../constants.dart';
 import '../provider/provider_class.dart';
@@ -99,7 +100,16 @@ class _ParentsHomeState extends State<ParentsHome> {
           ),
           actions: [
             InkWell(
-              onTap: () {
+              onTap: () async{
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove("currentUserId");
+
+
+
+
+
+
                 FirebaseAuth.instance.signOut().then(
                       (value) => Navigator.pushReplacement(
                         context,
